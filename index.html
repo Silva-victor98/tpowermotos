@@ -1680,8 +1680,9 @@ async function getFinalImageUrl() {
         }
       });
     }
-const imageUrl = await getFinalImageUrl();
-
+async function saveMoto() {
+  const imageUrl = await getFinalImageUrl();
+}
 if (!imageUrl) {
   alert('Selecione uma imagem ou cole uma URL');
   return;
