@@ -525,6 +525,10 @@ const img = document.getElementById("mainImage");
 if (img && localStorage.getItem("foto_principal")) {
   img.src = localStorage.getItem("foto_principal");
 }
+function showAdminLogin() {
+  const panel = document.getElementById('adminPanel');
+  panel.classList.toggle('hidden');
+}
 
     // Banco de dados completo das 30 motos
     const motosDatabase = {
@@ -1928,6 +1932,19 @@ async function saveMoto() {
 
     }
   </script>
+  <!-- BOTÃO CADEADO -->
+<button
+  onclick="showAdminLogin()"
+  style="position:fixed;bottom:20px;right:20px;z-index:9999;">
+  🔒
+</button>
+
+<!-- PAINEL ADMIN -->
+<div id="adminPanel" class="hidden" style="background:#000;color:#fff;position:fixed;inset:0;z-index:9998;">
+  <h2>Painel Administrativo</h2>
+  <button onclick="showAdminLogin()">Fechar</button>
+</div>
+
      <script>
 function showAdminLogin() {
   const senha = prompt("Senha do painel:");
