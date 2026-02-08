@@ -11,6 +11,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
     body {
+     <div id="adminPanel" style="display:none; padding:20px; background:#111; color:#fff">
+  <h2>Painel Administrativo</h2>
+
+  <input id="photoUrlInput" placeholder="URL da imagem" style="width:100%; padding:10px">
+  <br><br>
+  <button onclick="saveImage()">Salvar imagem</button>
+</div>
+
       box-sizing: border-box;
     }
     
@@ -498,6 +506,21 @@
    </div>
   </footer>
   <script>
+   function saveImage() {
+  const url = document.getElementById("photoUrlInput").value;
+  if (!url) {
+    alert("Cole a URL da imagem");
+    return;
+  }
+
+  localStorage.setItem("foto_principal", url);
+  alert("Imagem salva!");
+}
+const img = document.getElementById("mainImage");
+if (img && localStorage.getItem("foto_principal")) {
+  img.src = localStorage.getItem("foto_principal");
+}
+
     // Banco de dados completo das 30 motos
     const motosDatabase = {
       'cb500f': { name: 'CB 500F', brand: 'Honda', year: '2024', price: 'R$ 35.990', badge: 'NOVO', description: 'Motor 471cc, potência de 50cv. Ideal para o dia a dia.', specs: { motor: '471cc bicilíndrico', potencia: '47 cv @ 8.500 rpm', torque: '4,4 kgf.m @ 7.000 rpm' }, features: ['ABS de série', 'Painel LCD', 'Econômica'] },
@@ -1899,6 +1922,17 @@ async function saveMoto() {
 }
 
     }
+   <script>
+function showAdminLogin() {
+  const senha = prompt("Senha do painel:");
+  if (senha === "tpower2023") {
+    document.getElementById("adminPanel").style.display = "block";
+  } else {
+    alert("Senha errada");
+  }
+}
+</script>
+
   </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c058ec302bbf1dd',t:'MTc2ODgxNzU4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
