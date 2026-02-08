@@ -236,6 +236,10 @@
     }
   </style>
   <style>@view-transition { navigation: auto; }</style>
+  <style>
+.hidden { display:none !important; }
+</style>
+
  </head>
  <body class="font-body gradient-bg text-white h-full"><!-- Indicador de Salvamento -->
   <div id="savingIndicator" class="saving-indicator" style="display: none;">
@@ -251,6 +255,62 @@
       </div>
       <!-- Botão Admin Discreto --> 
    <script>
+    /* ===== PAINEL ADMIN SIMPLES ===== */
+
+function toggleAdmin() {
+  document.getElementById('adminPanel').classList.toggle('hidden');
+}
+
+/* Dados das motos */
+let motos = JSON.parse(localStorage.getItem('motosData')) || {
+  cb500f: {
+    name: 'CB 500F',
+    price: 'R$ 35.990',
+    desc: 'Motor 471cc',
+    image: ''
+  }
+};
+
+const select = document.getElementById('motoSelect');
+
+function loadSelect() {
+  select.innerHTML = '';
+  Object.keys(motos).forEach(id => {
+    const opt = document.createElement('option');
+    opt.value = id;
+    opt.textContent = motos[id].name;
+    select.appendChild(opt);
+  });
+  loadMoto();
+}
+
+function loadMoto() {
+  const id = select.value;
+  const m = motos[id];
+  document.getElementById('motoName').value = m.name;
+  document.getElementById('motoPrice').value = m.price;
+  document.getElementById('motoDesc').value = m.desc;
+  document.getElementById('motoImage').value = m.image || '';
+}
+
+select.onchange = loadMoto;
+
+function saveMoto() {
+  const id = select.value;
+  motos[id] = {
+    name: motoName.value,
+    price: motoPrice.value,
+    desc: motoDesc.value,
+    image: motoImage.value
+  };
+  localStorage.setItem('motosData', JSON.stringify(motos));
+  alert('Salvo com sucesso');
+  loadSelect();
+}
+
+/* Inicialização */
+document.addEventListener('DOMContentLoaded', loadSelect);
+
 function showAdminLogin() {
   const panel = document.getElementById('adminPanel');
   panel.classList.toggle('hidden');
@@ -1955,5 +2015,34 @@ function showAdminLogin() {
   }
 }
 </script>
+  <!-- BOTÃO CADEADO -->
+<button
+  onclick="toggleAdmin()"
+  style="position:fixed;bottom:20px;right:20px;z-index:9999;
+         width:50px;height:50px;border-radius:50%;
+         background:#111;color:#fff;border:none;font-size:22px;">
+  🔒
+</button>
+
+<!-- PAINEL ADMIN -->
+<div id="adminPanel" class="hidden" style="
+  position:fixed;inset:0;z-index:9998;
+  background:#000000f2;color:white;
+  padding:20px;overflow:auto;
+">
+  <h2>Painel Administrativo</h2>
+
+  <select id="motoSelect"></select>
+
+  <br><br>
+  <input id="motoName" placeholder="Nome da moto"><br><br>
+  <input id="motoPrice" placeholder="Preço"><br><br>
+  <textarea id="motoDesc" placeholder="Descrição"></textarea><br><br>
+  <input id="motoImage" placeholder="URL da imagem"><br><br>
+
+  <button onclick="saveMoto()">Salvar</button>
+  <button onclick="toggleAdmin()">Fechar</button>
+</div>
+
 </body>
 </html>
