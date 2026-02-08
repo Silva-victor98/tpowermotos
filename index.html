@@ -248,9 +248,12 @@
       <div class="relative"><input type="text" id="searchInput" placeholder="Buscar moto..." class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 pl-10 text-white placeholder-white/50 focus:outline-none focus:border-sky-400 focus:bg-white/15 transition-all w-40 lg:w-48 xl:focus:w-64 text-sm">
        <svg class="w-4 h-4 lg:w-5 lg:h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
        </svg>
-      </div><!-- Botão Admin Discreto --> <button onclick="showAdminLogin()" class="opacity-20 hover:opacity-100 transition-opacity duration-300 text-white/60 hover:text-sky-400" title="Acesso Administrativo">
-       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-       </svg></button>
+      </div>
+      <!-- Botão Admin Discreto --> 
+      function showAdminLogin() {
+  const panel = document.getElementById('adminPanel');
+  panel.classList.toggle('hidden');
+}
      </nav><!-- Menu Mobile --> <button onclick="toggleMobileMenu()" class="md:hidden text-white p-2">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
       </svg></button>
@@ -1922,7 +1925,8 @@ async function saveMoto() {
 }
 
     }
-   <script>
+  </script>
+     <script>
 function showAdminLogin() {
   const senha = prompt("Senha do painel:");
   if (senha === "tpower2023") {
@@ -1932,7 +1936,5 @@ function showAdminLogin() {
   }
 }
 </script>
-
-  </script>
 </body>
 </html>
