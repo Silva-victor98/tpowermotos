@@ -8,8 +8,6 @@
   <link rel="shortcut icon" type="image/png" href="https://i.imgur.com/FyCqY2d.png">
   <link rel="apple-touch-icon" href="https://i.imgur.com/FyCqY2d.png">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="/_sdk/element_sdk.js"></script>
-  <script src="/_sdk/data_sdk.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
     body {
@@ -567,63 +565,6 @@
         }
       }
     };
-
-    // Inicializar SDK
-    async function initDataSDK() {
-      if (dataInitialized) return;
-      
-      console.log('🔄 Inicializando sistema de salvamento...');
-      
-      try {
-        const result = await window.dataSdk.init(dataHandler);
-        if (result.isOk) {
-          dataInitialized = true;
-          console.log('✅ Sistema de armazenamento CONECTADO e FUNCIONANDO!');
-          console.log('💾 Todos os dados agora serão salvos permanentemente na Planilha do Canva');
-        } else {
-          console.error('❌ Erro ao conectar armazenamento:', result.error);
-          showToast('❌ Erro ao conectar sistema de salvamento', 'error');
-        }
-      } catch (error) {
-        console.error('❌ Erro ao inicializar:', error);
-        showToast('❌ Erro ao inicializar sistema', 'error');
-      }
-    }
-
-    // Salvar dados no SDK com RETRY automático
-    async function saveToSDK(motoId, dataType, dataContent, retryCount = 0) {
-      const MAX_RETRIES = 3;
-      
-      console.log(`🔵 TENTATIVA ${retryCount + 1}/${MAX_RETRIES + 1} - Salvando:`, { motoId, dataType });
-      
-      // Validações iniciais
-      if (!motoId || !dataType) {
-        const errorMsg = 'Erro: motoId ou dataType não fornecido';
-        console.error('❌', errorMsg);
-        showToast('❌ ' + errorMsg, 'error');
-        showSaveError();
-        return false;
-      }
-
-      // Garantir inicialização
-      if (!dataInitialized) {
-        console.log('⚠️ SDK não inicializado, inicializando agora...');
-        await initDataSDK();
-        
-        // Aguardar mais um pouco para garantir
-        await new Promise(resolve => setTimeout(resolve, 500));
-      }
-
-      // Verificar se SDK existe
-      if (!window.dataSdk) {
-        const errorMsg = 'Sistema de salvamento não disponível';
-        console.error('❌ CRÍTICO:', errorMsg);
-        showToast('❌ ' + errorMsg + '. Recarregue a página.', 'error');
-        showSaveError();
-        return false;
-      }
-
-      showSavingIndicator();
 
       // Buscar registro existente
       const existing = currentData.find(r => r.moto_id === motoId && r.data_type === dataType);
