@@ -281,7 +281,9 @@
      </div>
     </form>
    </div>
-  </div><!-- Painel Administrativo -->
+  </div>
+  <!-- Painel Administrativo -->
+  <input type="file" id="photoFileInput" accept="image/*" style="display:none">
   <div id="adminPanel" class="hidden fixed inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 z-[90]"><!-- Conteúdo do painel administrativo será carregado dinamicamente -->
   </div><!-- Hero Section -->
   <section class="pt-32 sm:pt-36 lg:pt-40 pb-12 sm:pb-20 px-4 sm:px-6 lg:px-8">
@@ -1088,6 +1090,39 @@
       currentEditingMotoId = null;
       // NÃO recarregar o painel - mantém o estado atual
     }
+// Upload de imagem para Cloudinary
+async function uploadImageToCloudinary(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("tpowermotos", "daelkgz3x");
+
+  const response = await fetch(
+    "https://api.cloudinary.com/v1_1/daelkgz3x/image/upload",
+    {
+      method: "POST",
+      body: formData
+    }
+  );
+
+  const data = await response.json();
+  return data.secure_url;
+}
+async function getFinalImageUrl() {
+  const fileInput = document.getElementById('photoFileInput');
+  const urlInput = document.getElementById('photoUrlInput');
+
+  // 1️⃣ Prioridade: upload local
+  if (fileInput && fileInput.files && fileInput.files.length > 0) {
+    return await uploadImageToCloudinary(fileInput.files[0]);
+  }
+
+  // 2️⃣ Senão, usar URL colada
+  if (urlInput && urlInput.value.trim() !== '') {
+    return urlInput.value.trim();
+  }
+
+  return null;
+}
 
     async function saveMotoData() {
       const features = document.getElementById('edit_features').value.split('\n').filter(f => f.trim() !== '');
@@ -1645,6 +1680,14 @@
         }
       });
     }
+const imageUrl = await getFinalImageUrl();
+
+if (!imageUrl) {
+  alert('Selecione uma imagem ou cole uma URL');
+  return;
+}
+
+// daqui pra frente você salva imageUrl
 
     // Mostrar detalhes da moto
     function showMotoDetail(motoId) {
