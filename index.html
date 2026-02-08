@@ -1682,12 +1682,14 @@ async function getFinalImageUrl() {
     }
 async function saveMoto() {
   const imageUrl = await getFinalImageUrl();
-}
-if (!imageUrl) {
-  alert('Selecione uma imagem ou cole uma URL');
-  return;
-}
 
+  if (!imageUrl) {
+    alert('Selecione uma imagem ou cole uma URL');
+    return;
+  }
+
+  // aqui continua o código de salvar a moto
+}
 // daqui pra frente você salva imageUrl
 
     // Mostrar detalhes da moto
